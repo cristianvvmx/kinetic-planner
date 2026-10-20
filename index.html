@@ -4,50 +4,112 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Kinetic Planner" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Kinetic Clarity" />
   <title>Kinetic Clarity — Planner</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0F172A',
+            secondary: '#6366F1',
+            tertiary: '#10B981',
+            neutral: '#64748B',
+            surface: '#F1F5F9',
+            card: '#E2E8F0'
+          },
+          fontFamily: {
+            headline: ['"Plus Jakarta Sans"', 'sans-serif'],
+            body: ['"Inter"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Inter', sans-serif; background-color: #E2E8F0; color: #0F172A; -webkit-tap-highlight-color: transparent; }
+    h1, h2, h3, h4, .font-headline { font-family: 'Plus Jakarta Sans', sans-serif; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col md:flex-row">
+<body class="min-h-screen flex flex-col md:flex-row text-base">
 
   <!-- SIDEBAR (MAC / DESKTOP) -->
-  <aside class="hidden md:flex flex-col w-64 bg-slate-900 border-r border-slate-800 p-5 justify-between">
+  <aside class="hidden md:flex flex-col w-72 bg-[#F8FAFC] border-r border-slate-300/80 p-6 justify-between shrink-0">
     <div>
-      <div class="flex items-center gap-3 mb-8">
-        <div class="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center font-bold text-lg shadow-lg shadow-indigo-600/30">K</div>
+      <!-- Logo Kinetic Clarity -->
+      <div class="flex items-center gap-3.5 mb-8">
+        <div class="w-11 h-11 rounded-2xl bg-primary text-white flex items-center justify-center shadow-md">
+          <svg class="w-6 h-6 text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+          </svg>
+        </div>
         <div>
-          <h1 class="font-bold text-base tracking-tight">Kinetic Clarity</h1>
-          <p class="text-xs text-slate-400">Kanban · Gantt · Agenda</p>
+          <h1 class="font-headline font-bold text-xl text-primary tracking-tight">Kinetic Clarity</h1>
+          <p class="text-sm text-neutral font-medium">Sistema de Gestión</p>
         </div>
       </div>
 
-      <nav class="space-y-2">
-        <button onclick="setView('kanban')" id="nav-kanban-desk" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium bg-indigo-600 text-white">
-          <span>📋</span> Tablero Kanban
+      <!-- Navegación Principal -->
+      <nav class="space-y-2.5">
+        <button onclick="setView('kanban')" id="nav-kanban-desk" class="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-base font-semibold bg-primary text-white shadow-sm transition">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+          Tablero Kanban
         </button>
-        <button onclick="setView('gantt')" id="nav-gantt-desk" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800">
-          <span>📊</span> Cronograma Gantt
+        <button onclick="setView('gantt')" id="nav-gantt-desk" class="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-base font-semibold text-neutral hover:bg-slate-200/70 hover:text-primary transition">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="14" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="6" y1="18" x2="16" y2="18"/></svg>
+          Cronograma Gantt
         </button>
-        <button onclick="setView('agenda')" id="nav-agenda-desk" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800">
-          <span>📅</span> Agenda Calendario
+        <button onclick="setView('agenda')" id="nav-agenda-desk" class="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-base font-semibold text-neutral hover:bg-slate-200/70 hover:text-primary transition">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Agenda Calendario
         </button>
       </nav>
+
+      <!-- Barra de Progreso Global (Estilo Kinetic Clarity) -->
+      <div class="mt-8 bg-slate-200/70 rounded-2xl p-4 space-y-3 border border-slate-300/60">
+        <div class="flex justify-between items-center text-sm font-semibold">
+          <span class="text-primary">Avance Global</span>
+          <span id="progress-text" class="text-secondary">0%</span>
+        </div>
+        <div class="w-full bg-slate-300/80 h-2.5 rounded-full overflow-hidden">
+          <div id="progress-bar-main" class="bg-primary h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+        <div class="w-full bg-slate-300/80 h-2.5 rounded-full overflow-hidden">
+          <div id="progress-bar-sec" class="bg-secondary h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
     </div>
 
-    <div class="space-y-3 border-t border-slate-800 pt-4">
-      <button onclick="openConfigModal()" class="w-full text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 py-2.5 px-3 rounded-lg flex items-center justify-between">
-        <span>🔗 Google Sheets API</span>
-        <span id="sync-indicator-desk" class="w-2 h-2 rounded-full bg-amber-400"></span>
+    <!-- Acciones de Configuración y Categorías -->
+    <div class="space-y-2.5 border-t border-slate-300 pt-5">
+      <button onclick="openCategoryModal()" class="w-full text-sm font-semibold bg-secondary/15 hover:bg-secondary/25 text-secondary py-3 px-4 rounded-xl flex items-center justify-between transition">
+        <span class="flex items-center gap-2.5">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          Proyectos / Categorías
+        </span>
+        <span id="cat-count-badge" class="bg-secondary text-white text-xs px-2 py-0.5 rounded-full">0</span>
       </button>
-      <button onclick="syncWithSheets()" class="w-full text-xs bg-indigo-950 hover:bg-indigo-900 text-indigo-300 border border-indigo-800/50 py-2.5 px-3 rounded-lg font-medium">
-        🔄 Sincronizar Ahora
+
+      <button onclick="openConfigModal()" class="w-full text-sm font-medium bg-white hover:bg-slate-100 text-primary border border-slate-300 py-3 px-4 rounded-xl flex items-center justify-between transition">
+        <span class="flex items-center gap-2.5">
+          <svg class="w-4 h-4 text-neutral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          Google Sheets API
+        </span>
+        <span id="sync-indicator-desk" class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+      </button>
+
+      <button onclick="syncWithSheets()" class="w-full text-sm bg-primary hover:bg-slate-800 text-white py-3 px-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        Sincronizar Ahora
       </button>
     </div>
   </aside>
@@ -55,156 +117,244 @@
   <!-- CONTENIDO PRINCIPAL -->
   <main class="flex-1 flex flex-col h-screen overflow-hidden">
     <!-- HEADER -->
-    <header class="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 px-4 md:px-8 py-4 flex items-center justify-between">
-      <div>
-        <h2 id="view-title" class="text-lg md:text-xl font-bold">Tablero Kanban</h2>
-        <p id="sync-status" class="text-xs text-slate-400">Modo local listo</p>
+    <header class="bg-[#F8FAFC]/90 backdrop-blur-md border-b border-slate-300/80 px-4 md:px-8 py-4 flex flex-col gap-4">
+      <div class="flex items-center justify-between gap-3">
+        <div>
+          <h2 id="view-title" class="font-headline text-2xl md:text-3xl font-bold text-primary">Tablero Kanban</h2>
+          <p id="sync-status" class="text-sm text-neutral font-medium mt-0.5">Modo local listo</p>
+        </div>
+
+        <!-- Botones de Acción Rápida (Estilo Circular Minimalista) -->
+        <div class="flex items-center gap-2.5">
+          <!-- Botón Gestor de Categorías (Móvil/Desktop) -->
+          <button onclick="openCategoryModal()" title="Gestionar Proyectos/Categorías" class="w-11 h-11 rounded-full bg-secondary text-white flex items-center justify-center shadow-sm hover:opacity-90 transition">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+          </button>
+
+          <!-- Botón Sincronizar (Móvil) -->
+          <button onclick="syncWithSheets()" title="Sincronizar" class="md:hidden w-11 h-11 rounded-full bg-primary text-white flex items-center justify-center shadow-sm">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          </button>
+
+          <!-- Botón Configurar Google Sheets (Móvil) -->
+          <button onclick="openConfigModal()" title="Conectar Google Sheets" class="md:hidden w-11 h-11 rounded-full bg-white border border-slate-300 text-primary flex items-center justify-center shadow-sm">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </button>
+
+          <!-- Botón Nueva Tarea (Primary Button Kinetic Clarity) -->
+          <button onclick="openTaskModal()" class="bg-primary hover:bg-slate-800 text-white px-5 py-3 rounded-xl text-base font-semibold shadow-sm flex items-center gap-2 transition">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span class="hidden sm:inline">Nueva Tarea</span>
+          </button>
+        </div>
       </div>
-      <div class="flex items-center gap-2">
-        <button onclick="openConfigModal()" class="md:hidden p-2.5 rounded-xl bg-slate-800 text-slate-300 text-sm">⚙️</button>
-        <button onclick="syncWithSheets()" class="md:hidden p-2.5 rounded-xl bg-slate-800 text-slate-300 text-sm">🔄</button>
-        <button onclick="openTaskModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-lg shadow-indigo-600/20 flex items-center gap-1.5">
-          <span>+</span> <span class="hidden sm:inline">Nueva Tarea</span>
-        </button>
+
+      <!-- Barra de Búsqueda + Filtro de Categorías (Estilo Kinetic Clarity) -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <!-- Input Search -->
+        <div class="relative flex-1 max-w-md">
+          <svg class="w-5 h-5 text-neutral absolute left-3.5 top-1/2 -translate-y-1/2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input id="search-input" oninput="renderAll()" type="text" placeholder="Buscar tarea o proyecto..." class="w-full bg-[#DCE6F7]/70 border border-slate-300/90 focus:border-secondary focus:bg-white rounded-xl pl-11 pr-4 py-2.5 text-base text-primary placeholder-neutral focus:outline-none transition" />
+        </div>
+
+        <!-- Píldoras de Filtro por Categoría -->
+        <div id="category-filters" class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1"></div>
       </div>
     </header>
 
     <!-- AREA DE VISTAS -->
-    <section class="flex-1 overflow-y-auto p-4 md:p-8 pb-24 md:pb-8">
+    <section class="flex-1 overflow-y-auto p-4 md:p-8 pb-28 md:pb-8">
       
       <!-- 1. VISTA KANBAN -->
-      <div id="view-kanban" class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div id="view-kanban" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Columna Pendiente -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col">
-          <div class="flex items-center justify-between mb-4">
-            <span class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-amber-400"></span> Pendiente
+        <div class="bg-[#F8FAFC] border border-slate-300/80 rounded-3xl p-5 flex flex-col shadow-sm">
+          <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-200">
+            <span class="font-headline text-base font-bold text-primary flex items-center gap-2.5">
+              <span class="w-3 h-3 rounded-full bg-neutral"></span> Pendiente
             </span>
-            <span id="count-Pendiente" class="text-xs bg-slate-800 px-2.5 py-0.5 rounded-full text-slate-400">0</span>
+            <span id="count-Pendiente" class="text-sm font-bold bg-slate-200 px-3 py-0.5 rounded-full text-primary">0</span>
           </div>
-          <div id="col-Pendiente" class="space-y-3 flex-1"></div>
+          <div id="col-Pendiente" class="space-y-3.5 flex-1"></div>
         </div>
 
         <!-- Columna En Progreso -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col">
-          <div class="flex items-center justify-between mb-4">
-            <span class="text-xs font-bold uppercase tracking-wider text-sky-400 flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-sky-400"></span> En Progreso
+        <div class="bg-[#F8FAFC] border border-slate-300/80 rounded-3xl p-5 flex flex-col shadow-sm">
+          <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-200">
+            <span class="font-headline text-base font-bold text-primary flex items-center gap-2.5">
+              <span class="w-3 h-3 rounded-full bg-secondary"></span> En Progreso
             </span>
-            <span id="count-En Progreso" class="text-xs bg-slate-800 px-2.5 py-0.5 rounded-full text-slate-400">0</span>
+            <span id="count-En Progreso" class="text-sm font-bold bg-secondary/15 px-3 py-0.5 rounded-full text-secondary">0</span>
           </div>
-          <div id="col-En Progreso" class="space-y-3 flex-1"></div>
+          <div id="col-En Progreso" class="space-y-3.5 flex-1"></div>
         </div>
 
         <!-- Columna Completado -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col">
-          <div class="flex items-center justify-between mb-4">
-            <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Completado
+        <div class="bg-[#F8FAFC] border border-slate-300/80 rounded-3xl p-5 flex flex-col shadow-sm">
+          <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-200">
+            <span class="font-headline text-base font-bold text-primary flex items-center gap-2.5">
+              <span class="w-3 h-3 rounded-full bg-tertiary"></span> Completado
             </span>
-            <span id="count-Completado" class="text-xs bg-slate-800 px-2.5 py-0.5 rounded-full text-slate-400">0</span>
+            <span id="count-Completado" class="text-sm font-bold bg-tertiary/15 px-3 py-0.5 rounded-full text-tertiary">0</span>
           </div>
-          <div id="col-Completado" class="space-y-3 flex-1"></div>
+          <div id="col-Completado" class="space-y-3.5 flex-1"></div>
         </div>
       </div>
 
       <!-- 2. VISTA CRONOGRAMA GANTT -->
-      <div id="view-gantt" class="hidden bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-6 overflow-x-auto">
-        <div class="mb-4 flex items-center justify-between">
-          <h3 class="text-sm font-semibold text-slate-300">Línea de Tiempo de Proyectos (Próximos 14 días)</h3>
+      <div id="view-gantt" class="hidden bg-[#F8FAFC] border border-slate-300/80 rounded-3xl p-6 shadow-sm overflow-x-auto">
+        <div class="mb-5 flex items-center justify-between">
+          <h3 class="font-headline text-lg font-bold text-primary">Línea de Tiempo por Proyecto</h3>
         </div>
-        <div id="gantt-container" class="min-w-[650px] space-y-3"></div>
+        <div id="gantt-container" class="min-w-[680px] space-y-3.5"></div>
       </div>
 
       <!-- 3. VISTA AGENDA CALENDARIO -->
       <div id="view-agenda" class="hidden space-y-4">
-        <div id="agenda-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        <div id="agenda-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
       </div>
 
     </section>
   </main>
 
-  <!-- NAVEGACION INFERIOR (CELULAR) -->
-  <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 flex justify-around py-2.5 px-2 z-40">
-    <button onclick="setView('kanban')" id="nav-kanban-mob" class="flex flex-col items-center gap-1 text-indigo-400 font-medium text-xs">
-      <span class="text-lg">📋</span> Kanban
+  <!-- NAVEGACION INFERIOR ESTILO PILDORA (CELULAR - KINETIC CLARITY) -->
+  <nav class="md:hidden fixed bottom-4 left-4 right-4 bg-[#DCE6F7]/95 backdrop-blur-md border border-slate-300 rounded-full flex justify-around items-center py-2 px-4 z-40 shadow-lg">
+    <button onclick="setView('kanban')" id="nav-kanban-mob" class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center transition">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
     </button>
-    <button onclick="setView('gantt')" id="nav-gantt-mob" class="flex flex-col items-center gap-1 text-slate-400 font-medium text-xs">
-      <span class="text-lg">📊</span> Gantt
+    <button onclick="setView('gantt')" id="nav-gantt-mob" class="w-12 h-12 rounded-full text-primary flex items-center justify-center transition">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="14" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="6" y1="18" x2="16" y2="18"/></svg>
     </button>
-    <button onclick="setView('agenda')" id="nav-agenda-mob" class="flex flex-col items-center gap-1 text-slate-400 font-medium text-xs">
-      <span class="text-lg">📅</span> Agenda
+    <button onclick="setView('agenda')" id="nav-agenda-mob" class="w-12 h-12 rounded-full text-primary flex items-center justify-center transition">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
     </button>
   </nav>
 
-  <!-- MODAL NUEVA TAREA -->
-  <div id="task-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4">
-      <h3 class="text-lg font-bold">Nueva Actividad</h3>
-      <div class="space-y-3">
+  <!-- MODAL CREAR / EDITAR TAREA -->
+  <div id="task-modal" class="hidden fixed inset-0 bg-primary/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    <div class="bg-[#F8FAFC] border border-slate-300 rounded-3xl w-full max-w-lg p-6 md:p-8 space-y-5 shadow-2xl">
+      <div class="flex items-center justify-between">
+        <h3 id="task-modal-title" class="font-headline text-xl font-bold text-primary">Nueva Actividad</h3>
+        <button onclick="closeTaskModal()" class="text-neutral hover:text-primary p-1">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="space-y-4">
         <div>
-          <label class="text-xs text-slate-400">Título de la tarea</label>
-          <input id="inp-titulo" type="text" placeholder="Ej. Editar video o revisar proyecto" class="w-full mt-1 bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-indigo-500" />
+          <label class="text-sm font-semibold text-neutral">Título de la tarea</label>
+          <input id="inp-titulo" type="text" placeholder="Ej. Preparar clase o revisar proyecto" class="w-full mt-1.5 bg-white border border-slate-300 rounded-xl px-4 py-3 text-base text-primary focus:outline-none focus:border-secondary" />
         </div>
-        <div class="grid grid-cols-2 gap-3">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label class="text-xs text-slate-400">Categoría / Proyecto</label>
-            <input id="inp-categoria" type="text" placeholder="Ej. Negocio, Clases, Casa" class="w-full mt-1 bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm" />
+            <div class="flex items-center justify-between">
+              <label class="text-sm font-semibold text-neutral">Categoría / Proyecto</label>
+              <button type="button" onclick="openCategoryModal()" class="text-xs font-bold text-secondary hover:underline">+ Gestionar</button>
+            </div>
+            <select id="inp-categoria" class="w-full mt-1.5 bg-white border border-slate-300 rounded-xl px-4 py-3 text-base text-primary focus:outline-none focus:border-secondary"></select>
           </div>
           <div>
-            <label class="text-xs text-slate-400">Estado</label>
-            <select id="inp-estado" class="w-full mt-1 bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm">
+            <label class="text-sm font-semibold text-neutral">Estado</label>
+            <select id="inp-estado" class="w-full mt-1.5 bg-white border border-slate-300 rounded-xl px-4 py-3 text-base text-primary focus:outline-none focus:border-secondary">
               <option value="Pendiente">Pendiente</option>
               <option value="En Progreso">En Progreso</option>
               <option value="Completado">Completado</option>
             </select>
           </div>
         </div>
-        <div class="grid grid-cols-3 gap-2">
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
-            <label class="text-xs text-slate-400">Inicio</label>
-            <input id="inp-inicio" type="date" class="w-full mt-1 bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-2 text-xs" />
+            <label class="text-sm font-semibold text-neutral">Inicio</label>
+            <input id="inp-inicio" type="date" class="w-full mt-1.5 bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-base text-primary" />
           </div>
           <div>
-            <label class="text-xs text-slate-400">Fin</label>
-            <input id="inp-fin" type="date" class="w-full mt-1 bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-2 text-xs" />
+            <label class="text-sm font-semibold text-neutral">Fin</label>
+            <input id="inp-fin" type="date" class="w-full mt-1.5 bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-base text-primary" />
           </div>
           <div>
-            <label class="text-xs text-slate-400">Hora</label>
-            <input id="inp-hora" type="time" value="09:00" class="w-full mt-1 bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-2 text-xs" />
+            <label class="text-sm font-semibold text-neutral">Hora</label>
+            <input id="inp-hora" type="time" value="09:00" class="w-full mt-1.5 bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-base text-primary" />
           </div>
         </div>
       </div>
-      <div class="flex justify-end gap-2 pt-3">
-        <button onclick="closeTaskModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-sm">Cancelar</button>
-        <button onclick="saveTask()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold">Guardar</button>
+
+      <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
+        <button onclick="closeTaskModal()" class="px-5 py-2.5 rounded-xl border border-slate-300 text-primary font-semibold text-base hover:bg-slate-200/60 transition">Cancelar</button>
+        <button onclick="saveTask()" class="px-6 py-2.5 rounded-xl bg-primary hover:bg-slate-800 text-white text-base font-semibold shadow-sm transition">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL GESTOR DE CATEGORIAS / PROYECTOS -->
+  <div id="category-modal" class="hidden fixed inset-0 bg-primary/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    <div class="bg-[#F8FAFC] border border-slate-300 rounded-3xl w-full max-w-md p-6 md:p-7 space-y-5 shadow-2xl">
+      <div class="flex items-center justify-between">
+        <h3 class="font-headline text-xl font-bold text-primary">Proyectos y Categorías</h3>
+        <button onclick="closeCategoryModal()" class="text-neutral hover:text-primary p-1">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <!-- Agregar Nueva Categoría -->
+      <div class="flex gap-2">
+        <input id="inp-new-category" type="text" placeholder="Nuevo proyecto o categoría..." class="flex-1 bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-base text-primary focus:outline-none focus:border-secondary" />
+        <button onclick="addCategory()" class="bg-secondary hover:opacity-95 text-white px-4 py-2.5 rounded-xl font-semibold text-base shrink-0">Añadir</button>
+      </div>
+
+      <!-- Lista de Categorías -->
+      <div id="category-list" class="space-y-2.5 max-h-64 overflow-y-auto pr-1"></div>
+
+      <div class="flex justify-end pt-3 border-t border-slate-200">
+        <button onclick="closeCategoryModal()" class="px-5 py-2.5 rounded-xl bg-primary text-white font-semibold text-base">Listo</button>
       </div>
     </div>
   </div>
 
   <!-- MODAL CONFIGURACION GOOGLE SHEETS -->
-  <div id="config-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4">
-      <h3 class="text-lg font-bold">Sincronización con Google Sheets</h3>
-      <p class="text-xs text-slate-400">Pega aquí la URL de implementación de tu Google Apps Script (termina en <code>/exec</code>).</p>
-      <input id="inp-sheet-url" type="url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm" />
-      <div class="flex justify-end gap-2 pt-2">
-        <button onclick="closeConfigModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-sm">Cerrar</button>
-        <button onclick="saveConfig()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold">Conectar</button>
+  <div id="config-modal" class="hidden fixed inset-0 bg-primary/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    <div class="bg-[#F8FAFC] border border-slate-300 rounded-3xl w-full max-w-md p-6 md:p-7 space-y-4 shadow-2xl">
+      <h3 class="font-headline text-xl font-bold text-primary">Sincronización con Google Sheets</h3>
+      <p class="text-sm text-neutral">Pega aquí la URL de implementación de tu Google Apps Script (termina en <code>/exec</code>).</p>
+      <input id="inp-sheet-url" type="url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-base text-primary" />
+      <div class="flex justify-end gap-2.5 pt-3">
+        <button onclick="closeConfigModal()" class="px-4 py-2.5 rounded-xl border border-slate-300 text-primary font-semibold text-base">Cerrar</button>
+        <button onclick="saveConfig()" class="px-5 py-2.5 rounded-xl bg-tertiary hover:opacity-95 text-white text-base font-semibold">Conectar</button>
       </div>
     </div>
   </div>
 
   <script>
     const todayStr = new Date().toISOString().split('T')[0];
+    let categories = JSON.parse(localStorage.getItem('kc_categories')) || ['Visión', 'Negocios', 'Clases', 'Familia', 'Salud'];
     let tasks = JSON.parse(localStorage.getItem('kc_tasks')) || [
       { id: '1', titulo: 'Definir metas estratégicas de la semana', categoria: 'Visión', estado: 'En Progreso', inicio: todayStr, fin: todayStr, hora: '08:00' },
       { id: '2', titulo: 'Revisión de proyectos digitales', categoria: 'Negocios', estado: 'Pendiente', inicio: todayStr, fin: todayStr, hora: '16:00' }
     ];
     let sheetUrl = localStorage.getItem('kc_sheet_url') || '';
+    let editingTaskId = null;
+    let activeCategoryFilter = 'Todas';
+
+    // Iconos SVG Minimalistas (Estilo Kinetic Clarity)
+    const iconEdit = `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>`;
+    const iconTrash = `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>`;
+    const iconTag = `<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>`;
+    const iconClock = `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+
+    function syncCategoriesFromTasks() {
+      tasks.forEach(t => {
+        if (t.categoria && !categories.includes(t.categoria)) {
+          categories.push(t.categoria);
+        }
+      });
+      localStorage.setItem('kc_categories', JSON.stringify(categories));
+    }
 
     function saveLocal() {
+      syncCategoriesFromTasks();
       localStorage.setItem('kc_tasks', JSON.stringify(tasks));
+      localStorage.setItem('kc_categories', JSON.stringify(categories));
       renderAll();
       pushToSheets();
     }
@@ -215,38 +365,99 @@
         const deskBtn = document.getElementById(`nav-${v}-desk`);
         const mobBtn = document.getElementById(`nav-${v}-mob`);
         if (v === view) {
-          deskBtn.className = 'w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium bg-indigo-600 text-white';
-          mobBtn.className = 'flex flex-col items-center gap-1 text-indigo-400 font-semibold text-xs';
+          deskBtn.className = 'w-full flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-base font-semibold bg-primary text-white shadow-sm transition';
+          mobBtn.className = 'w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center transition shadow-md';
         } else {
-          deskBtn.className = 'w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800';
-          mobBtn.className = 'flex flex-col items-center gap-1 text-slate-400 font-medium text-xs';
+          deskBtn.className = 'w-full flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-base font-semibold text-neutral hover:bg-slate-200/70 hover:text-primary transition';
+          mobBtn.className = 'w-12 h-12 rounded-full text-primary flex items-center justify-center transition';
         }
       });
       const titles = { kanban: 'Tablero Kanban', gantt: 'Cronograma Gantt', agenda: 'Agenda Calendario' };
       document.getElementById('view-title').innerText = titles[view];
     }
 
+    function getFilteredTasks() {
+      const q = (document.getElementById('search-input')?.value || '').toLowerCase().trim();
+      return tasks.filter(t => {
+        const matchCat = activeCategoryFilter === 'Todas' || t.categoria === activeCategoryFilter;
+        const matchQuery = !q || (t.titulo || '').toLowerCase().includes(q) || (t.categoria || '').toLowerCase().includes(q);
+        return matchCat && matchQuery;
+      });
+    }
+
+    function updateProgress() {
+      const total = tasks.length;
+      const done = tasks.filter(t => t.estado === 'Completado').length;
+      const inProg = tasks.filter(t => t.estado === 'En Progreso').length;
+      const pctDone = total ? Math.round((done / total) * 100) : 0;
+      const pctActive = total ? Math.round(((done + inProg) / total) * 100) : 0;
+
+      document.getElementById('progress-text').innerText = `${pctDone}%`;
+      document.getElementById('progress-bar-main').style.width = `${pctDone}%`;
+      document.getElementById('progress-bar-sec').style.width = `${pctActive}%`;
+      document.getElementById('cat-count-badge').innerText = categories.length;
+    }
+
+    function renderCategoryFilters() {
+      const container = document.getElementById('category-filters');
+      const allCats = ['Todas', ...categories];
+      container.innerHTML = allCats.map(c => {
+        const active = c === activeCategoryFilter;
+        return `
+          <button onclick="setCategoryFilter('${c}')" class="px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition ${
+            active
+              ? 'bg-primary text-white shadow-sm'
+              : 'bg-white/80 text-primary border border-slate-300 hover:bg-white'
+          }">
+            ${c}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function setCategoryFilter(cat) {
+      activeCategoryFilter = cat;
+      renderAll();
+    }
+
     function renderAll() {
+      syncCategoriesFromTasks();
+      updateProgress();
+      renderCategoryFilters();
       renderKanban();
       renderGantt();
       renderAgenda();
     }
 
     function renderKanban() {
+      const filteredAll = getFilteredTasks();
       ['Pendiente', 'En Progreso', 'Completado'].forEach(estado => {
         const col = document.getElementById(`col-${estado}`);
-        const filtered = tasks.filter(t => t.estado === estado);
+        const filtered = filteredAll.filter(t => t.estado === estado);
         document.getElementById(`count-${estado}`).innerText = filtered.length;
         col.innerHTML = filtered.map(t => `
-          <div class="bg-slate-800/70 hover:bg-slate-800 border border-slate-700/60 rounded-xl p-3.5 space-y-2 transition">
-            <div class="flex justify-between items-start gap-2">
-              <span class="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300">${t.categoria}</span>
-              <button onclick="deleteTask('${t.id}')" class="text-slate-500 hover:text-rose-400 text-xs">✕</button>
+          <div class="bg-white border border-slate-200/90 hover:border-slate-300 rounded-2xl p-4 space-y-3 shadow-sm transition">
+            <div class="flex justify-between items-center gap-2">
+              <span class="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-lg bg-[#1E293B] text-white">
+                ${iconTag} ${t.categoria}
+              </span>
+              <div class="flex items-center gap-1.5">
+                <button onclick="openTaskModal('${t.id}')" title="Editar tarea" class="w-8 h-8 rounded-lg bg-[#062E22] text-tertiary hover:opacity-90 flex items-center justify-center transition">
+                  ${iconEdit}
+                </button>
+                <button onclick="deleteTask('${t.id}')" title="Eliminar tarea" class="w-8 h-8 rounded-full bg-red-600 text-white hover:bg-red-700 flex items-center justify-center transition">
+                  ${iconTrash}
+                </button>
+              </div>
             </div>
-            <p class="text-sm font-medium text-slate-100">${t.titulo}</p>
-            <div class="flex items-center justify-between text-xs text-slate-400 pt-1">
-              <span>📅 ${t.inicio} · ${t.hora || '09:00'}</span>
-              <select onchange="changeStatus('${t.id}', this.value)" class="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-[11px] text-slate-300">
+
+            <p class="text-base font-semibold text-primary leading-snug">${t.titulo}</p>
+
+            <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-sm text-neutral font-medium">
+              <span class="flex items-center gap-1.5">
+                ${iconClock} ${t.inicio} · ${t.hora || '09:00'}
+              </span>
+              <select onchange="changeStatus('${t.id}', this.value)" class="bg-slate-100 border border-slate-300 rounded-lg px-2.5 py-1 text-xs font-semibold text-primary focus:outline-none">
                 <option value="Pendiente" ${t.estado === 'Pendiente' ? 'selected' : ''}>Pendiente</option>
                 <option value="En Progreso" ${t.estado === 'En Progreso' ? 'selected' : ''}>En Progreso</option>
                 <option value="Completado" ${t.estado === 'Completado' ? 'selected' : ''}>Completado</option>
@@ -259,21 +470,28 @@
 
     function renderGantt() {
       const container = document.getElementById('gantt-container');
-      if (tasks.length === 0) {
-        container.innerHTML = '<p class="text-sm text-slate-500">No hay tareas registradas.</p>';
+      const list = getFilteredTasks();
+      if (list.length === 0) {
+        container.innerHTML = '<p class="text-base text-neutral">No hay tareas para mostrar.</p>';
         return;
       }
-      container.innerHTML = tasks.map(t => {
-        const color = t.estado === 'Completado' ? 'bg-emerald-500' : t.estado === 'En Progreso' ? 'bg-sky-500' : 'bg-amber-500';
+      container.innerHTML = list.map(t => {
+        const barColor = t.estado === 'Completado' ? 'bg-tertiary' : t.estado === 'En Progreso' ? 'bg-secondary' : 'bg-primary';
         return `
-          <div class="grid grid-cols-12 items-center gap-3 bg-slate-800/40 p-3 rounded-xl border border-slate-800">
-            <div class="col-span-4">
-              <p class="text-sm font-medium truncate">${t.titulo}</p>
-              <p class="text-xs text-slate-400">${t.inicio} → ${t.fin}</p>
+          <div class="grid grid-cols-12 items-center gap-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+            <div class="col-span-5 flex items-center justify-between pr-2">
+              <div class="truncate">
+                <p class="text-base font-bold text-primary truncate">${t.titulo}</p>
+                <p class="text-sm text-neutral">${t.inicio} → ${t.fin} · <span class="font-semibold text-secondary">${t.categoria}</span></p>
+              </div>
+              <button onclick="openTaskModal('${t.id}')" class="w-8 h-8 rounded-lg bg-[#062E22] text-tertiary flex items-center justify-center shrink-0 ml-2">
+                ${iconEdit}
+              </button>
             </div>
-            <div class="col-span-8 bg-slate-950 h-7 rounded-lg p-1 flex items-center">
-              <div class="${color} h-full rounded-md px-3 flex items-center text-[11px] font-bold text-slate-950 w-full">
-                ${t.estado} (${t.categoria})
+            <div class="col-span-7 bg-slate-200/80 h-9 rounded-xl p-1.5 flex items-center">
+              <div class="${barColor} h-full rounded-lg px-4 flex items-center justify-between text-xs font-bold text-white w-full">
+                <span>${t.estado}</span>
+                <span>${t.hora || '09:00'}</span>
               </div>
             </div>
           </div>
@@ -283,26 +501,41 @@
 
     function renderAgenda() {
       const container = document.getElementById('agenda-container');
+      const list = getFilteredTasks();
       const grouped = {};
-      tasks.forEach(t => {
+      list.forEach(t => {
         if (!grouped[t.inicio]) grouped[t.inicio] = [];
         grouped[t.inicio].push(t);
       });
       const dates = Object.keys(grouped).sort();
+      if (dates.length === 0) {
+        container.innerHTML = '<p class="text-base text-neutral">No hay actividades programadas.</p>';
+        return;
+      }
       container.innerHTML = dates.map(date => `
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
-          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-            <h4 class="font-bold text-sm text-indigo-400">📅 ${date}</h4>
-            <span class="text-xs text-slate-400">${grouped[date].length} actividad(es)</span>
+        <div class="bg-[#F8FAFC] border border-slate-300/80 rounded-3xl p-5 space-y-3.5 shadow-sm">
+          <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+            <h4 class="font-headline font-bold text-lg text-primary">${date}</h4>
+            <span class="text-xs font-bold bg-secondary/15 text-secondary px-3 py-1 rounded-full">${grouped[date].length} tarea(s)</span>
           </div>
-          <div class="space-y-2">
+          <div class="space-y-2.5">
             ${grouped[date].sort((a,b) => (a.hora||'').localeCompare(b.hora||'')).map(t => `
-              <div class="flex items-center justify-between bg-slate-800/60 p-2.5 rounded-xl text-xs">
-                <div>
-                  <span class="font-bold text-slate-300 mr-2">${t.hora || '09:00'}</span>
-                  <span class="${t.estado === 'Completado' ? 'line-through text-slate-500' : 'text-slate-100'}">${t.titulo}</span>
+              <div class="flex items-center justify-between bg-white border border-slate-200 p-3.5 rounded-2xl gap-2">
+                <div class="min-w-0 flex-1">
+                  <div class="flex items-center gap-2">
+                    <span class="font-bold text-sm text-secondary">${t.hora || '09:00'}</span>
+                    <span class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 text-neutral">${t.categoria}</span>
+                  </div>
+                  <p class="text-base font-semibold mt-0.5 truncate ${t.estado === 'Completado' ? 'line-through text-neutral' : 'text-primary'}">${t.titulo}</p>
                 </div>
-                <span class="text-[10px] px-2 py-0.5 rounded bg-slate-700 text-slate-300">${t.estado}</span>
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <button onclick="openTaskModal('${t.id}')" class="w-8 h-8 rounded-lg bg-[#062E22] text-tertiary flex items-center justify-center">
+                    ${iconEdit}
+                  </button>
+                  <button onclick="deleteTask('${t.id}')" class="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center">
+                    ${iconTrash}
+                  </button>
+                </div>
               </div>
             `).join('')}
           </div>
@@ -310,43 +543,138 @@
       `).join('');
     }
 
-    function changeStatus(id, newStatus) {
-      tasks = tasks.map(t => t.id === id ? { ...t, estado: newStatus } : t);
-      saveLocal();
+    function populateCategorySelect(selectedCat) {
+      const sel = document.getElementById('inp-categoria');
+      sel.innerHTML = categories.map(c => `<option value="${c}" ${c === selectedCat ? 'selected' : ''}>${c}</option>`).join('');
     }
 
-    function deleteTask(id) {
-      tasks = tasks.filter(t => t.id !== id);
-      saveLocal();
-    }
+    function openTaskModal(taskId = null) {
+      editingTaskId = taskId;
+      const modalTitle = document.getElementById('task-modal-title');
 
-    function openTaskModal() {
-      document.getElementById('inp-inicio').value = todayStr;
-      document.getElementById('inp-fin').value = todayStr;
+      if (taskId) {
+        const t = tasks.find(item => String(item.id) === String(taskId));
+        if (!t) return;
+        modalTitle.innerText = 'Editar Actividad';
+        document.getElementById('inp-titulo').value = t.titulo;
+        populateCategorySelect(t.categoria);
+        document.getElementById('inp-estado').value = t.estado;
+        document.getElementById('inp-inicio').value = t.inicio || todayStr;
+        document.getElementById('inp-fin').value = t.fin || todayStr;
+        document.getElementById('inp-hora').value = t.hora || '09:00';
+      } else {
+        modalTitle.innerText = 'Nueva Actividad';
+        document.getElementById('inp-titulo').value = '';
+        populateCategorySelect(activeCategoryFilter !== 'Todas' ? activeCategoryFilter : categories[0]);
+        document.getElementById('inp-estado').value = 'Pendiente';
+        document.getElementById('inp-inicio').value = todayStr;
+        document.getElementById('inp-fin').value = todayStr;
+        document.getElementById('inp-hora').value = '09:00';
+      }
       document.getElementById('task-modal').classList.remove('hidden');
     }
 
     function closeTaskModal() {
+      editingTaskId = null;
       document.getElementById('task-modal').classList.add('hidden');
     }
 
     function saveTask() {
       const titulo = document.getElementById('inp-titulo').value.trim();
       if (!titulo) return;
-      tasks.push({
-        id: Date.now().toString(),
+      const taskData = {
         titulo,
-        categoria: document.getElementById('inp-categoria').value.trim() || 'General',
+        categoria: document.getElementById('inp-categoria').value || 'General',
         estado: document.getElementById('inp-estado').value,
         inicio: document.getElementById('inp-inicio').value || todayStr,
         fin: document.getElementById('inp-fin').value || todayStr,
         hora: document.getElementById('inp-hora').value || '09:00'
-      });
-      document.getElementById('inp-titulo').value = '';
+      };
+
+      if (editingTaskId) {
+        tasks = tasks.map(t => String(t.id) === String(editingTaskId) ? { ...t, ...taskData } : t);
+      } else {
+        tasks.push({ id: Date.now().toString(), ...taskData });
+      }
       closeTaskModal();
       saveLocal();
     }
 
+    function changeStatus(id, newStatus) {
+      tasks = tasks.map(t => String(t.id) === String(id) ? { ...t, estado: newStatus } : t);
+      saveLocal();
+    }
+
+    function deleteTask(id) {
+      tasks = tasks.filter(t => String(t.id) !== String(id));
+      saveLocal();
+    }
+
+    // GESTOR DE CATEGORIAS
+    function openCategoryModal() {
+      renderCategoryList();
+      document.getElementById('category-modal').classList.remove('hidden');
+    }
+
+    function closeCategoryModal() {
+      document.getElementById('category-modal').classList.add('hidden');
+      populateCategorySelect(document.getElementById('inp-categoria')?.value);
+    }
+
+    function renderCategoryList() {
+      const list = document.getElementById('category-list');
+      list.innerHTML = categories.map((c, idx) => `
+        <div class="flex items-center justify-between bg-white border border-slate-200 px-4 py-2.5 rounded-xl gap-2">
+          <span class="font-semibold text-base text-primary">${c}</span>
+          <div class="flex items-center gap-1.5">
+            <button onclick="renameCategory(${idx})" title="Renombrar" class="w-8 h-8 rounded-lg bg-[#062E22] text-tertiary flex items-center justify-center">
+              ${iconEdit}
+            </button>
+            <button onclick="deleteCategory(${idx})" title="Eliminar" class="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center">
+              ${iconTrash}
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addCategory() {
+      const inp = document.getElementById('inp-new-category');
+      const val = inp.value.trim();
+      if (!val || categories.includes(val)) return;
+      categories.push(val);
+      inp.value = '';
+      saveLocal();
+      renderCategoryList();
+    }
+
+    function renameCategory(idx) {
+      const oldName = categories[idx];
+      const newName = prompt('Nuevo nombre para el proyecto / categoría:', oldName);
+      if (!newName || !newName.trim() || newName.trim() === oldName) return;
+      const clean = newName.trim();
+      categories[idx] = clean;
+      tasks = tasks.map(t => t.categoria === oldName ? { ...t, categoria: clean } : t);
+      if (activeCategoryFilter === oldName) activeCategoryFilter = clean;
+      saveLocal();
+      renderCategoryList();
+    }
+
+    function deleteCategory(idx) {
+      if (categories.length <= 1) {
+        alert('Debe existir al menos una categoría activa.');
+        return;
+      }
+      const removed = categories[idx];
+      categories.splice(idx, 1);
+      const fallback = categories[0];
+      tasks = tasks.map(t => t.categoria === removed ? { ...t, categoria: fallback } : t);
+      if (activeCategoryFilter === removed) activeCategoryFilter = 'Todas';
+      saveLocal();
+      renderCategoryList();
+    }
+
+    // CONFIGURACION GOOGLE SHEETS
     function openConfigModal() {
       document.getElementById('inp-sheet-url').value = sheetUrl;
       document.getElementById('config-modal').classList.remove('hidden');
@@ -381,7 +709,7 @@
             await pushToSheets();
           }
           document.getElementById('sync-status').innerText = 'Sincronizado con Google Sheets ✓';
-          document.getElementById('sync-indicator-desk').className = 'w-2 h-2 rounded-full bg-emerald-400';
+          document.getElementById('sync-indicator-desk').className = 'w-2.5 h-2.5 rounded-full bg-tertiary';
         }
       } catch (e) {
         document.getElementById('sync-status').innerText = 'Error de red (Usando respaldo local)';
