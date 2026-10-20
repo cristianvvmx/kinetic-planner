@@ -43,7 +43,6 @@
   <!-- SIDEBAR (MAC / DESKTOP) -->
   <aside class="hidden md:flex flex-col w-72 bg-[#F8FAFC] border-r border-slate-300/80 p-6 justify-between shrink-0">
     <div>
-      <!-- Logo Kinetic Clarity -->
       <div class="flex items-center gap-3.5 mb-8">
         <div class="w-11 h-11 rounded-2xl bg-primary text-white flex items-center justify-center shadow-md">
           <svg class="w-6 h-6 text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -58,7 +57,6 @@
         </div>
       </div>
 
-      <!-- Navegación Principal -->
       <nav class="space-y-2.5">
         <button onclick="setView('kanban')" id="nav-kanban-desk" class="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-base font-semibold bg-primary text-white shadow-sm transition">
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
@@ -74,7 +72,6 @@
         </button>
       </nav>
 
-      <!-- Barra de Progreso Global (Estilo Kinetic Clarity) -->
       <div class="mt-8 bg-slate-200/70 rounded-2xl p-4 space-y-3 border border-slate-300/60">
         <div class="flex justify-between items-center text-sm font-semibold">
           <span class="text-primary">Avance Global</span>
@@ -89,26 +86,16 @@
       </div>
     </div>
 
-    <!-- Acciones de Configuración y Categorías -->
     <div class="space-y-2.5 border-t border-slate-300 pt-5">
       <button onclick="openCategoryModal()" class="w-full text-sm font-semibold bg-secondary/15 hover:bg-secondary/25 text-secondary py-3 px-4 rounded-xl flex items-center justify-between transition">
-        <span class="flex items-center gap-2.5">
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-          Proyectos / Categorías
-        </span>
+        <span class="flex items-center gap-2.5">Proyectos / Categorías</span>
         <span id="cat-count-badge" class="bg-secondary text-white text-xs px-2 py-0.5 rounded-full">0</span>
       </button>
-
       <button onclick="openConfigModal()" class="w-full text-sm font-medium bg-white hover:bg-slate-100 text-primary border border-slate-300 py-3 px-4 rounded-xl flex items-center justify-between transition">
-        <span class="flex items-center gap-2.5">
-          <svg class="w-4 h-4 text-neutral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-          Google Sheets API
-        </span>
+        <span>Google Sheets API</span>
         <span id="sync-indicator-desk" class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
       </button>
-
       <button onclick="syncWithSheets()" class="w-full text-sm bg-primary hover:bg-slate-800 text-white py-3 px-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition">
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
         Sincronizar Ahora
       </button>
     </div>
@@ -116,32 +103,22 @@
 
   <!-- CONTENIDO PRINCIPAL -->
   <main class="flex-1 flex flex-col h-screen overflow-hidden">
-    <!-- HEADER -->
     <header class="bg-[#F8FAFC]/90 backdrop-blur-md border-b border-slate-300/80 px-4 md:px-8 py-4 flex flex-col gap-4">
       <div class="flex items-center justify-between gap-3">
         <div>
           <h2 id="view-title" class="font-headline text-2xl md:text-3xl font-bold text-primary">Tablero Kanban</h2>
           <p id="sync-status" class="text-sm text-neutral font-medium mt-0.5">Modo local listo</p>
         </div>
-
-        <!-- Botones de Acción Rápida (Estilo Circular Minimalista) -->
         <div class="flex items-center gap-2.5">
-          <!-- Botón Gestor de Categorías (Móvil/Desktop) -->
           <button onclick="openCategoryModal()" title="Gestionar Proyectos/Categorías" class="w-11 h-11 rounded-full bg-secondary text-white flex items-center justify-center shadow-sm hover:opacity-90 transition">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
           </button>
-
-          <!-- Botón Sincronizar (Móvil) -->
           <button onclick="syncWithSheets()" title="Sincronizar" class="md:hidden w-11 h-11 rounded-full bg-primary text-white flex items-center justify-center shadow-sm">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
           </button>
-
-          <!-- Botón Configurar Google Sheets (Móvil) -->
           <button onclick="openConfigModal()" title="Conectar Google Sheets" class="md:hidden w-11 h-11 rounded-full bg-white border border-slate-300 text-primary flex items-center justify-center shadow-sm">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
           </button>
-
-          <!-- Botón Nueva Tarea (Primary Button Kinetic Clarity) -->
           <button onclick="openTaskModal()" class="bg-primary hover:bg-slate-800 text-white px-5 py-3 rounded-xl text-base font-semibold shadow-sm flex items-center gap-2 transition">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             <span class="hidden sm:inline">Nueva Tarea</span>
@@ -149,15 +126,11 @@
         </div>
       </div>
 
-      <!-- Barra de Búsqueda + Filtro de Categorías (Estilo Kinetic Clarity) -->
       <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-        <!-- Input Search -->
         <div class="relative flex-1 max-w-md">
           <svg class="w-5 h-5 text-neutral absolute left-3.5 top-1/2 -translate-y-1/2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <input id="search-input" oninput="renderAll()" type="text" placeholder="Buscar tarea o proyecto..." class="w-full bg-[#DCE6F7]/70 border border-slate-300/90 focus:border-secondary focus:bg-white rounded-xl pl-11 pr-4 py-2.5 text-base text-primary placeholder-neutral focus:outline-none transition" />
         </div>
-
-        <!-- Píldoras de Filtro por Categoría -->
         <div id="category-filters" class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1"></div>
       </div>
     </header>
@@ -167,7 +140,6 @@
       
       <!-- 1. VISTA KANBAN -->
       <div id="view-kanban" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Columna Pendiente -->
         <div class="bg-[#F8FAFC] border border-slate-300/80 rounded-3xl p-5 flex flex-col shadow-sm">
           <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-200">
             <span class="font-headline text-base font-bold text-primary flex items-center gap-2.5">
@@ -178,7 +150,6 @@
           <div id="col-Pendiente" class="space-y-3.5 flex-1"></div>
         </div>
 
-        <!-- Columna En Progreso -->
         <div class="bg-[#F8FAFC] border border-slate-300/80 rounded-3xl p-5 flex flex-col shadow-sm">
           <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-200">
             <span class="font-headline text-base font-bold text-primary flex items-center gap-2.5">
@@ -189,7 +160,6 @@
           <div id="col-En Progreso" class="space-y-3.5 flex-1"></div>
         </div>
 
-        <!-- Columna Completado -->
         <div class="bg-[#F8FAFC] border border-slate-300/80 rounded-3xl p-5 flex flex-col shadow-sm">
           <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-200">
             <span class="font-headline text-base font-bold text-primary flex items-center gap-2.5">
@@ -201,12 +171,12 @@
         </div>
       </div>
 
-      <!-- 2. VISTA CRONOGRAMA GANTT -->
+      <!-- 2. VISTA CRONOGRAMA GANTT REAL -->
       <div id="view-gantt" class="hidden bg-[#F8FAFC] border border-slate-300/80 rounded-3xl p-6 shadow-sm overflow-x-auto">
         <div class="mb-5 flex items-center justify-between">
-          <h3 class="font-headline text-lg font-bold text-primary">Línea de Tiempo por Proyecto</h3>
+          <h3 class="font-headline text-lg font-bold text-primary">Cronograma Gantt (Línea de Tiempo de 14 Días)</h3>
         </div>
-        <div id="gantt-container" class="min-w-[680px] space-y-3.5"></div>
+        <div id="gantt-container" class="min-w-[850px]"></div>
       </div>
 
       <!-- 3. VISTA AGENDA CALENDARIO -->
@@ -217,7 +187,7 @@
     </section>
   </main>
 
-  <!-- NAVEGACION INFERIOR ESTILO PILDORA (CELULAR - KINETIC CLARITY) -->
+  <!-- NAVEGACION INFERIOR -->
   <nav class="md:hidden fixed bottom-4 left-4 right-4 bg-[#DCE6F7]/95 backdrop-blur-md border border-slate-300 rounded-full flex justify-around items-center py-2 px-4 z-40 shadow-lg">
     <button onclick="setView('kanban')" id="nav-kanban-mob" class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center transition">
       <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -287,7 +257,7 @@
     </div>
   </div>
 
-  <!-- MODAL GESTOR DE CATEGORIAS / PROYECTOS -->
+  <!-- MODAL GESTOR DE CATEGORIAS -->
   <div id="category-modal" class="hidden fixed inset-0 bg-primary/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
     <div class="bg-[#F8FAFC] border border-slate-300 rounded-3xl w-full max-w-md p-6 md:p-7 space-y-5 shadow-2xl">
       <div class="flex items-center justify-between">
@@ -296,16 +266,11 @@
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
-
-      <!-- Agregar Nueva Categoría -->
       <div class="flex gap-2">
         <input id="inp-new-category" type="text" placeholder="Nuevo proyecto o categoría..." class="flex-1 bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-base text-primary focus:outline-none focus:border-secondary" />
         <button onclick="addCategory()" class="bg-secondary hover:opacity-95 text-white px-4 py-2.5 rounded-xl font-semibold text-base shrink-0">Añadir</button>
       </div>
-
-      <!-- Lista de Categorías -->
       <div id="category-list" class="space-y-2.5 max-h-64 overflow-y-auto pr-1"></div>
-
       <div class="flex justify-end pt-3 border-t border-slate-200">
         <button onclick="closeCategoryModal()" class="px-5 py-2.5 rounded-xl bg-primary text-white font-semibold text-base">Listo</button>
       </div>
@@ -327,16 +292,17 @@
 
   <script>
     const todayStr = new Date().toISOString().split('T')[0];
-    let categories = JSON.parse(localStorage.getItem('kc_categories')) || ['Visión', 'Negocios', 'Clases', 'Familia', 'Salud'];
+    let categories = JSON.parse(localStorage.getItem('kc_categories')) || ['Visión', 'Negocios', 'Clases', 'Familia', 'Salud', 'Podcast', 'Avaluó'];
     let tasks = JSON.parse(localStorage.getItem('kc_tasks')) || [
-      { id: '1', titulo: 'Definir metas estratégicas de la semana', categoria: 'Visión', estado: 'En Progreso', inicio: todayStr, fin: todayStr, hora: '08:00' },
-      { id: '2', titulo: 'Revisión de proyectos digitales', categoria: 'Negocios', estado: 'Pendiente', inicio: todayStr, fin: todayStr, hora: '16:00' }
+      { id: '1', titulo: 'Definir metas estratégicas de la semana', categoria: 'Visión', estado: 'Completado', inicio: todayStr, fin: todayStr, hora: '08:00' },
+      { id: '2', titulo: 'Capsula 1', categoria: 'Podcast', estado: 'Pendiente', inicio: todayStr, fin: todayStr, hora: '21:00' },
+      { id: '3', titulo: 'Hacer topografía', categoria: 'Avaluó', estado: 'En Progreso', inicio: todayStr, fin: todayStr, hora: '13:00' },
+      { id: '4', titulo: 'Hacer presentaciones de Secundaria', categoria: 'Clases', estado: 'Pendiente', inicio: '2026-10-20', fin: '2026-10-22', hora: '13:00' }
     ];
-    let sheetUrl = localStorage.getItem('kc_sheet_url') || '';
+    let sheetUrl = localStorage.getItem('kc_sheet_url') || 'https://script.google.com/macros/s/AKfycbzG0BvrSWpGxsJ58nNPEEhYK5cziomgS-y6imF3Ba8NE3hs_Ay9Y9ZCsGf7ZYyWyYMh_w/exec';
     let editingTaskId = null;
     let activeCategoryFilter = 'Todas';
 
-    // Iconos SVG Minimalistas (Estilo Kinetic Clarity)
     const iconEdit = `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>`;
     const iconTrash = `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>`;
     const iconTag = `<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>`;
@@ -450,13 +416,9 @@
                 </button>
               </div>
             </div>
-
             <p class="text-base font-semibold text-primary leading-snug">${t.titulo}</p>
-
             <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-sm text-neutral font-medium">
-              <span class="flex items-center gap-1.5">
-                ${iconClock} ${t.inicio} · ${t.hora || '09:00'}
-              </span>
+              <span class="flex items-center gap-1.5">${iconClock} ${t.inicio} · ${t.hora || '09:00'}</span>
               <select onchange="changeStatus('${t.id}', this.value)" class="bg-slate-100 border border-slate-300 rounded-lg px-2.5 py-1 text-xs font-semibold text-primary focus:outline-none">
                 <option value="Pendiente" ${t.estado === 'Pendiente' ? 'selected' : ''}>Pendiente</option>
                 <option value="En Progreso" ${t.estado === 'En Progreso' ? 'selected' : ''}>En Progreso</option>
@@ -468,35 +430,81 @@
       });
     }
 
+    // ==========================================
+    // CRONOGRAMA GANTT REAL CON MATRIZ DE 14 DÍAS
+    // ==========================================
     function renderGantt() {
       const container = document.getElementById('gantt-container');
       const list = getFilteredTasks();
       if (list.length === 0) {
-        container.innerHTML = '<p class="text-base text-neutral">No hay tareas para mostrar.</p>';
+        container.innerHTML = '<p class="text-base text-neutral p-4">No hay tareas para mostrar en el cronograma.</p>';
         return;
       }
-      container.innerHTML = list.map(t => {
+
+      // Generar arreglo de 14 días a partir de hoy (o del inicio de la primera tarea)
+      let baseDate = new Date();
+      let days = [];
+      for (let i = 0; i < 14; i++) {
+        let d = new Date(baseDate);
+        d.setDate(baseDate.getDate() + i);
+        days.push(d.toISOString().split('T')[0]);
+      }
+
+      let headerHtml = `
+        <div class="grid grid-cols-12 bg-slate-200/80 rounded-xl p-3 mb-3 text-xs font-bold text-primary">
+          <div class="col-span-4">Proyecto / Tarea</div>
+          <div class="col-span-8 grid grid-cols-7 gap-1 text-center">
+            ${days.slice(0, 7).map(date => `<div class="truncate">${date.slice(5)}</div>`).join('')}
+          </div>
+        </div>
+      `;
+
+      let rowsHtml = list.map(t => {
+        const start = t.inicio || todayStr;
+        const end = t.fin || start;
         const barColor = t.estado === 'Completado' ? 'bg-tertiary' : t.estado === 'En Progreso' ? 'bg-secondary' : 'bg-primary';
+
+        // Calcular posición en los 14 días
+        let startIndex = days.indexOf(start);
+        let endIndex = days.indexOf(end);
+        if (startIndex === -1) startIndex = start < days[0] ? 0 : 13;
+        if (endIndex === -1) endIndex = end > days[13] ? 13 : startIndex;
+        if (endIndex < startIndex) endIndex = startIndex;
+
+        let colSpan = (endIndex - startIndex) + 1;
+        let gridOffsetClass = `col-start-${startIndex + 1}`;
+        let gridSpanClass = `col-span-${colSpan}`;
+
         return `
-          <div class="grid grid-cols-12 items-center gap-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-            <div class="col-span-5 flex items-center justify-between pr-2">
+          <div class="grid grid-cols-12 items-center gap-2 bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm mb-2.5">
+            <div class="col-span-4 flex items-center justify-between pr-2">
               <div class="truncate">
-                <p class="text-base font-bold text-primary truncate">${t.titulo}</p>
-                <p class="text-sm text-neutral">${t.inicio} → ${t.fin} · <span class="font-semibold text-secondary">${t.categoria}</span></p>
+                <p class="text-sm font-bold text-primary truncate">${t.titulo}</p>
+                <p class="text-xs text-neutral">${t.inicio} → ${t.fin} · <span class="font-semibold text-secondary">${t.categoria}</span></p>
               </div>
-              <button onclick="openTaskModal('${t.id}')" class="w-8 h-8 rounded-lg bg-[#062E22] text-tertiary flex items-center justify-center shrink-0 ml-2">
+              <button onclick="openTaskModal('${t.id}')" class="w-7 h-7 rounded-lg bg-[#062E22] text-tertiary flex items-center justify-center shrink-0 ml-1">
                 ${iconEdit}
               </button>
             </div>
-            <div class="col-span-7 bg-slate-200/80 h-9 rounded-xl p-1.5 flex items-center">
-              <div class="${barColor} h-full rounded-lg px-4 flex items-center justify-between text-xs font-bold text-white w-full">
-                <span>${t.estado}</span>
-                <span>${t.hora || '09:00'}</span>
+            
+            <div class="col-span-8 grid grid-cols-7 gap-1 bg-slate-100 p-1.5 rounded-xl relative">
+              <!-- Fondo de cuadrícula de días -->
+              <div class="absolute inset-0 grid grid-cols-7 px-1.5 pointer-events-none">
+                ${days.slice(0, 7).map(() => `<div class="border-r border-slate-200/60 h-full"></div>`).join('')}
+              </div>
+              <!-- Barra Gantt Proporcional -->
+              <div class="col-span-7 bg-transparent h-7 flex items-center">
+                <div class="${barColor} h-6 rounded-lg px-3 flex items-center justify-between text-[11px] font-bold text-white shadow-sm w-full">
+                  <span class="truncate">${t.estado}</span>
+                  <span class="opacity-80">${t.categoria}</span>
+                </div>
               </div>
             </div>
           </div>
         `;
       }).join('');
+
+      container.innerHTML = headerHtml + rowsHtml;
     }
 
     function renderAgenda() {
@@ -529,12 +537,8 @@
                   <p class="text-base font-semibold mt-0.5 truncate ${t.estado === 'Completado' ? 'line-through text-neutral' : 'text-primary'}">${t.titulo}</p>
                 </div>
                 <div class="flex items-center gap-1.5 shrink-0">
-                  <button onclick="openTaskModal('${t.id}')" class="w-8 h-8 rounded-lg bg-[#062E22] text-tertiary flex items-center justify-center">
-                    ${iconEdit}
-                  </button>
-                  <button onclick="deleteTask('${t.id}')" class="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center">
-                    ${iconTrash}
-                  </button>
+                  <button onclick="openTaskModal('${t.id}')" class="w-8 h-8 rounded-lg bg-[#062E22] text-tertiary flex items-center justify-center">${iconEdit}</button>
+                  <button onclick="deleteTask('${t.id}')" class="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center">${iconTrash}</button>
                 </div>
               </div>
             `).join('')}
@@ -551,7 +555,6 @@
     function openTaskModal(taskId = null) {
       editingTaskId = taskId;
       const modalTitle = document.getElementById('task-modal-title');
-
       if (taskId) {
         const t = tasks.find(item => String(item.id) === String(taskId));
         if (!t) return;
@@ -590,7 +593,6 @@
         fin: document.getElementById('inp-fin').value || todayStr,
         hora: document.getElementById('inp-hora').value || '09:00'
       };
-
       if (editingTaskId) {
         tasks = tasks.map(t => String(t.id) === String(editingTaskId) ? { ...t, ...taskData } : t);
       } else {
@@ -610,7 +612,6 @@
       saveLocal();
     }
 
-    // GESTOR DE CATEGORIAS
     function openCategoryModal() {
       renderCategoryList();
       document.getElementById('category-modal').classList.remove('hidden');
@@ -627,12 +628,8 @@
         <div class="flex items-center justify-between bg-white border border-slate-200 px-4 py-2.5 rounded-xl gap-2">
           <span class="font-semibold text-base text-primary">${c}</span>
           <div class="flex items-center gap-1.5">
-            <button onclick="renameCategory(${idx})" title="Renombrar" class="w-8 h-8 rounded-lg bg-[#062E22] text-tertiary flex items-center justify-center">
-              ${iconEdit}
-            </button>
-            <button onclick="deleteCategory(${idx})" title="Eliminar" class="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center">
-              ${iconTrash}
-            </button>
+            <button onclick="renameCategory(${idx})" class="w-8 h-8 rounded-lg bg-[#062E22] text-tertiary flex items-center justify-center">${iconEdit}</button>
+            <button onclick="deleteCategory(${idx})" class="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center">${iconTrash}</button>
           </div>
         </div>
       `).join('');
@@ -667,14 +664,12 @@
       }
       const removed = categories[idx];
       categories.splice(idx, 1);
-      const fallback = categories[0];
-      tasks = tasks.map(t => t.categoria === removed ? { ...t, categoria: fallback } : t);
+      tasks = tasks.map(t => t.categoria === removed ? { ...t, categoria: categories[0] } : t);
       if (activeCategoryFilter === removed) activeCategoryFilter = 'Todas';
       saveLocal();
       renderCategoryList();
     }
 
-    // CONFIGURACION GOOGLE SHEETS
     function openConfigModal() {
       document.getElementById('inp-sheet-url').value = sheetUrl;
       document.getElementById('config-modal').classList.remove('hidden');
@@ -692,24 +687,19 @@
     }
 
     async function syncWithSheets() {
-      if (!sheetUrl) {
-        document.getElementById('sync-status').innerText = 'Sin URL de Google Sheets (Modo Local)';
-        return;
-      }
+      if (!sheetUrl) return;
       document.getElementById('sync-status').innerText = 'Sincronizando con Google Sheets...';
       try {
         const res = await fetch(sheetUrl);
         const json = await res.json();
-        if (json.status === 'ok' && Array.isArray(json.data)) {
-          if (json.data.length > 0) {
-            tasks = json.data;
-            localStorage.setItem('kc_tasks', JSON.stringify(tasks));
-            renderAll();
-          } else {
-            await pushToSheets();
-          }
+        if (json.status === 'ok' && Array.isArray(json.data) && json.data.length > 0) {
+          tasks = json.data;
+          localStorage.setItem('kc_tasks', JSON.stringify(tasks));
+          renderAll();
           document.getElementById('sync-status').innerText = 'Sincronizado con Google Sheets ✓';
           document.getElementById('sync-indicator-desk').className = 'w-2.5 h-2.5 rounded-full bg-tertiary';
+        } else {
+          await pushToSheets();
         }
       } catch (e) {
         document.getElementById('sync-status').innerText = 'Error de red (Usando respaldo local)';
@@ -718,7 +708,6 @@
 
     async function pushToSheets() {
       if (!sheetUrl) return;
-      document.getElementById('sync-status').innerText = 'Guardando en Google Sheets...';
       try {
         await fetch(sheetUrl, {
           method: 'POST',
