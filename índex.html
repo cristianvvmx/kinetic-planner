@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Kinetic Planner" />
+  <title>Kinetic Clarity — Planner</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col md:flex-row">
+
+  <!-- SIDEBAR (MAC / DESKTOP) -->
+  <aside class="hidden md:flex flex-col w-64 bg-slate-900 border-r border-slate-800 p-5 justify-between">
+    <div>
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center font-bold text-lg shadow-lg shadow-indigo-600/30">K</div>
+        <div>
+          <h1 class="font-bold text-base tracking-tight">Kinetic Clarity</h1>
+          <p class="text-xs text-slate-400">Kanban · Gantt · Agenda</p>
+        </div>
+      </div>
+
+      <nav class="space-y-2">
+        <button onclick="setView('kanban')" id="nav-kanban-desk" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium bg-indigo-600 text-white">
+          <span>📋</span> Tablero Kanban
+        </button>
+        <button onclick="setView('gantt')" id="nav-gantt-desk" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800">
+          <span>📊</span> Cronograma Gantt
+        </button>
+        <button onclick="setView('agenda')" id="nav-agenda-desk" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800">
+          <span>📅</span> Agenda Calendario
+        </button>
+      </nav>
+    </div>
+
+    <div class="space-y-3 border-t border-slate-800 pt-4">
+      <button onclick="openConfigModal()" class="w-full text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 py-2.5 px-3 rounded-lg flex items-center justify-between">
+        <span>🔗 Google Sheets API</span>
+        <span id="sync-indicator-desk" class="w-2 h-2 rounded-full bg-amber-400"></span>
+      </button>
+      <button onclick="syncWithSheets()" class="w-full text-xs bg-indigo-950 hover:bg-indigo-900 text-indigo-300 border border-indigo-800/50 py-2.5 px-3 rounded-lg font-medium">
+        🔄 Sincronizar Ahora
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="flex-1 flex flex-col h-screen overflow-hidden">
+    <!-- HEADER -->
+    <header class="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 px-4 md:px-8 py-4 flex items-center justify-between">
+      <div>
+        <h2 id="view-title" class="text-lg md:text-xl font-bold">Tablero Kanban</h2>
+        <p id="sync-status" class="text-xs text-slate-400">Modo local listo</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="openConfigModal()" class="md:hidden p-2.5 rounded-xl bg-slate-800 text-slate-300 text-sm">⚙️</button>
+        <button onclick="syncWithSheets()" class="md:hidden p-2.5 rounded-xl bg-slate-800 text-slate-300 text-sm">🔄</button>
+        <button onclick="openTaskModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-lg shadow-indigo-600/20 flex items-center gap-1.5">
+          <span>+</span> <span class="hidden sm:inline">Nueva Tarea</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- AREA DE VISTAS -->
+    <section class="flex-1 overflow-y-auto p-4 md:p-8 pb-24 md:pb-8">
+      
+      <!-- 1. VISTA KANBAN -->
+      <div id="view-kanban" class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <!-- Columna Pendiente -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-amber-400"></span> Pendiente
+            </span>
+            <span id="count-Pendiente" class="text-xs bg-slate-800 px-2.5 py-0.5 rounded-full text-slate-400">0</span>
+          </div>
+          <div id="col-Pendiente" class="space-y-3 flex-1"></div>
+        </div>
+
+        <!-- Columna En Progreso -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider text-sky-400 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-sky-400"></span> En Progreso
+            </span>
+            <span id="count-En Progreso" class="text-xs bg-slate-800 px-2.5 py-0.5 rounded-full text-slate-400">0</span>
+          </div>
+          <div id="col-En Progreso" class="space-y-3 flex-1"></div>
+        </div>
+
+        <!-- Columna Completado -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Completado
+            </span>
+            <span id="count-Completado" class="text-xs bg-slate-800 px-2.5 py-0.5 rounded-full text-slate-400">0</span>
+          </div>
+          <div id="col-Completado" class="space-y-3 flex-1"></div>
+        </div>
+      </div>
+
+      <!-- 2. VISTA CRONOGRAMA GANTT -->
+      <div id="view-gantt" class="hidden bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-6 overflow-x-auto">
+        <div class="mb-4 flex items-center justify-between">
+          <h3 class="text-sm font-semibold text-slate-300">Línea de Tiempo de Proyectos (Próximos 14 días)</h3>
+        </div>
+        <div id="gantt-container" class="min-w-[650px] space-y-3"></div>
+      </div>
+
+      <!-- 3. VISTA AGENDA CALENDARIO -->
+      <div id="view-agenda" class="hidden space-y-4">
+        <div id="agenda-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- NAVEGACION INFERIOR (CELULAR) -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 flex justify-around py-2.5 px-2 z-40">
+    <button onclick="setView('kanban')" id="nav-kanban-mob" class="flex flex-col items-center gap-1 text-indigo-400 font-medium text-xs">
+      <span class="text-lg">📋</span> Kanban
+    </button>
+    <button onclick="setView('gantt')" id="nav-gantt-mob" class="flex flex-col items-center gap-1 text-slate-400 font-medium text-xs">
+      <span class="text-lg">📊</span> Gantt
+    </button>
+    <button onclick="setView('agenda')" id="nav-agenda-mob" class="flex flex-col items-center gap-1 text-slate-400 font-medium text-xs">
+      <span class="text-lg">📅</span> Agenda
+    </button>
+  </nav>
+
+  <!-- MODAL NUEVA TAREA -->
+  <div id="task-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4">
+      <h3 class="text-lg font-bold">Nueva Actividad</h3>
+      <div class="space-y-3">
+        <div>
+          <label class="text-xs text-slate-400">Título de la tarea</label>
+          <input id="inp-titulo" type="text" placeholder="Ej. Editar video o revisar proyecto" class="w-full mt-1 bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-indigo-500" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-xs text-slate-400">Categoría / Proyecto</label>
+            <input id="inp-categoria" type="text" placeholder="Ej. Negocio, Clases, Casa" class="w-full mt-1 bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm" />
+          </div>
+          <div>
+            <label class="text-xs text-slate-400">Estado</label>
+            <select id="inp-estado" class="w-full mt-1 bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm">
+              <option value="Pendiente">Pendiente</option>
+              <option value="En Progreso">En Progreso</option>
+              <option value="Completado">Completado</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-2">
+          <div>
+            <label class="text-xs text-slate-400">Inicio</label>
+            <input id="inp-inicio" type="date" class="w-full mt-1 bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-2 text-xs" />
+          </div>
+          <div>
+            <label class="text-xs text-slate-400">Fin</label>
+            <input id="inp-fin" type="date" class="w-full mt-1 bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-2 text-xs" />
+          </div>
+          <div>
+            <label class="text-xs text-slate-400">Hora</label>
+            <input id="inp-hora" type="time" value="09:00" class="w-full mt-1 bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-2 text-xs" />
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-end gap-2 pt-3">
+        <button onclick="closeTaskModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-sm">Cancelar</button>
+        <button onclick="saveTask()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CONFIGURACION GOOGLE SHEETS -->
+  <div id="config-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4">
+      <h3 class="text-lg font-bold">Sincronización con Google Sheets</h3>
+      <p class="text-xs text-slate-400">Pega aquí la URL de implementación de tu Google Apps Script (termina en <code>/exec</code>).</p>
+      <input id="inp-sheet-url" type="url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm" />
+      <div class="flex justify-end gap-2 pt-2">
+        <button onclick="closeConfigModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-sm">Cerrar</button>
+        <button onclick="saveConfig()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold">Conectar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const todayStr = new Date().toISOString().split('T')[0];
+    let tasks = JSON.parse(localStorage.getItem('kc_tasks')) || [
+      { id: '1', titulo: 'Definir metas estratégicas de la semana', categoria: 'Visión', estado: 'En Progreso', inicio: todayStr, fin: todayStr, hora: '08:00' },
+      { id: '2', titulo: 'Revisión de proyectos digitales', categoria: 'Negocios', estado: 'Pendiente', inicio: todayStr, fin: todayStr, hora: '16:00' }
+    ];
+    let sheetUrl = localStorage.getItem('kc_sheet_url') || '';
+
+    function saveLocal() {
+      localStorage.setItem('kc_tasks', JSON.stringify(tasks));
+      renderAll();
+      pushToSheets();
+    }
+
+    function setView(view) {
+      ['kanban', 'gantt', 'agenda'].forEach(v => {
+        document.getElementById(`view-${v}`).classList.toggle('hidden', v !== view);
+        const deskBtn = document.getElementById(`nav-${v}-desk`);
+        const mobBtn = document.getElementById(`nav-${v}-mob`);
+        if (v === view) {
+          deskBtn.className = 'w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium bg-indigo-600 text-white';
+          mobBtn.className = 'flex flex-col items-center gap-1 text-indigo-400 font-semibold text-xs';
+        } else {
+          deskBtn.className = 'w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800';
+          mobBtn.className = 'flex flex-col items-center gap-1 text-slate-400 font-medium text-xs';
+        }
+      });
+      const titles = { kanban: 'Tablero Kanban', gantt: 'Cronograma Gantt', agenda: 'Agenda Calendario' };
+      document.getElementById('view-title').innerText = titles[view];
+    }
+
+    function renderAll() {
+      renderKanban();
+      renderGantt();
+      renderAgenda();
+    }
+
+    function renderKanban() {
+      ['Pendiente', 'En Progreso', 'Completado'].forEach(estado => {
+        const col = document.getElementById(`col-${estado}`);
+        const filtered = tasks.filter(t => t.estado === estado);
+        document.getElementById(`count-${estado}`).innerText = filtered.length;
+        col.innerHTML = filtered.map(t => `
+          <div class="bg-slate-800/70 hover:bg-slate-800 border border-slate-700/60 rounded-xl p-3.5 space-y-2 transition">
+            <div class="flex justify-between items-start gap-2">
+              <span class="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300">${t.categoria}</span>
+              <button onclick="deleteTask('${t.id}')" class="text-slate-500 hover:text-rose-400 text-xs">✕</button>
+            </div>
+            <p class="text-sm font-medium text-slate-100">${t.titulo}</p>
+            <div class="flex items-center justify-between text-xs text-slate-400 pt-1">
+              <span>📅 ${t.inicio} · ${t.hora || '09:00'}</span>
+              <select onchange="changeStatus('${t.id}', this.value)" class="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-[11px] text-slate-300">
+                <option value="Pendiente" ${t.estado === 'Pendiente' ? 'selected' : ''}>Pendiente</option>
+                <option value="En Progreso" ${t.estado === 'En Progreso' ? 'selected' : ''}>En Progreso</option>
+                <option value="Completado" ${t.estado === 'Completado' ? 'selected' : ''}>Completado</option>
+              </select>
+            </div>
+          </div>
+        `).join('');
+      });
+    }
+
+    function renderGantt() {
+      const container = document.getElementById('gantt-container');
+      if (tasks.length === 0) {
+        container.innerHTML = '<p class="text-sm text-slate-500">No hay tareas registradas.</p>';
+        return;
+      }
+      container.innerHTML = tasks.map(t => {
+        const color = t.estado === 'Completado' ? 'bg-emerald-500' : t.estado === 'En Progreso' ? 'bg-sky-500' : 'bg-amber-500';
+        return `
+          <div class="grid grid-cols-12 items-center gap-3 bg-slate-800/40 p-3 rounded-xl border border-slate-800">
+            <div class="col-span-4">
+              <p class="text-sm font-medium truncate">${t.titulo}</p>
+              <p class="text-xs text-slate-400">${t.inicio} → ${t.fin}</p>
+            </div>
+            <div class="col-span-8 bg-slate-950 h-7 rounded-lg p-1 flex items-center">
+              <div class="${color} h-full rounded-md px-3 flex items-center text-[11px] font-bold text-slate-950 w-full">
+                ${t.estado} (${t.categoria})
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderAgenda() {
+      const container = document.getElementById('agenda-container');
+      const grouped = {};
+      tasks.forEach(t => {
+        if (!grouped[t.inicio]) grouped[t.inicio] = [];
+        grouped[t.inicio].push(t);
+      });
+      const dates = Object.keys(grouped).sort();
+      container.innerHTML = dates.map(date => `
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h4 class="font-bold text-sm text-indigo-400">📅 ${date}</h4>
+            <span class="text-xs text-slate-400">${grouped[date].length} actividad(es)</span>
+          </div>
+          <div class="space-y-2">
+            ${grouped[date].sort((a,b) => (a.hora||'').localeCompare(b.hora||'')).map(t => `
+              <div class="flex items-center justify-between bg-slate-800/60 p-2.5 rounded-xl text-xs">
+                <div>
+                  <span class="font-bold text-slate-300 mr-2">${t.hora || '09:00'}</span>
+                  <span class="${t.estado === 'Completado' ? 'line-through text-slate-500' : 'text-slate-100'}">${t.titulo}</span>
+                </div>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-slate-700 text-slate-300">${t.estado}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function changeStatus(id, newStatus) {
+      tasks = tasks.map(t => t.id === id ? { ...t, estado: newStatus } : t);
+      saveLocal();
+    }
+
+    function deleteTask(id) {
+      tasks = tasks.filter(t => t.id !== id);
+      saveLocal();
+    }
+
+    function openTaskModal() {
+      document.getElementById('inp-inicio').value = todayStr;
+      document.getElementById('inp-fin').value = todayStr;
+      document.getElementById('task-modal').classList.remove('hidden');
+    }
+
+    function closeTaskModal() {
+      document.getElementById('task-modal').classList.add('hidden');
+    }
+
+    function saveTask() {
+      const titulo = document.getElementById('inp-titulo').value.trim();
+      if (!titulo) return;
+      tasks.push({
+        id: Date.now().toString(),
+        titulo,
+        categoria: document.getElementById('inp-categoria').value.trim() || 'General',
+        estado: document.getElementById('inp-estado').value,
+        inicio: document.getElementById('inp-inicio').value || todayStr,
+        fin: document.getElementById('inp-fin').value || todayStr,
+        hora: document.getElementById('inp-hora').value || '09:00'
+      });
+      document.getElementById('inp-titulo').value = '';
+      closeTaskModal();
+      saveLocal();
+    }
+
+    function openConfigModal() {
+      document.getElementById('inp-sheet-url').value = sheetUrl;
+      document.getElementById('config-modal').classList.remove('hidden');
+    }
+
+    function closeConfigModal() {
+      document.getElementById('config-modal').classList.add('hidden');
+    }
+
+    function saveConfig() {
+      sheetUrl = document.getElementById('inp-sheet-url').value.trim();
+      localStorage.setItem('kc_sheet_url', sheetUrl);
+      closeConfigModal();
+      syncWithSheets();
+    }
+
+    async function syncWithSheets() {
+      if (!sheetUrl) {
+        document.getElementById('sync-status').innerText = 'Sin URL de Google Sheets (Modo Local)';
+        return;
+      }
+      document.getElementById('sync-status').innerText = 'Sincronizando con Google Sheets...';
+      try {
+        const res = await fetch(sheetUrl);
+        const json = await res.json();
+        if (json.status === 'ok' && Array.isArray(json.data)) {
+          if (json.data.length > 0) {
+            tasks = json.data;
+            localStorage.setItem('kc_tasks', JSON.stringify(tasks));
+            renderAll();
+          } else {
+            await pushToSheets();
+          }
+          document.getElementById('sync-status').innerText = 'Sincronizado con Google Sheets ✓';
+          document.getElementById('sync-indicator-desk').className = 'w-2 h-2 rounded-full bg-emerald-400';
+        }
+      } catch (e) {
+        document.getElementById('sync-status').innerText = 'Error de red (Usando respaldo local)';
+      }
+    }
+
+    async function pushToSheets() {
+      if (!sheetUrl) return;
+      document.getElementById('sync-status').innerText = 'Guardando en Google Sheets...';
+      try {
+        await fetch(sheetUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({ tasks })
+        });
+        document.getElementById('sync-status').innerText = 'Cambios guardados en la nube ✓';
+      } catch (e) {
+        document.getElementById('sync-status').innerText = 'Guardado localmente (Sin conexión)';
+      }
+    }
+
+    renderAll();
+    if (sheetUrl) syncWithSheets();
+  </script>
+</body>
+</html>
